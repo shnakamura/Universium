@@ -1,0 +1,10 @@
+displayName = Universium
+author = nakamurash
+version = 0.1
+homepage = https://discord.gg/universium
+
+hideCode = false
+hideResources = false
+
+includePDB = true
+includeSource = true
