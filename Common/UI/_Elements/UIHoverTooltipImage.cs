@@ -4,10 +4,6 @@ using Terraria.Localization;
 
 namespace Universium.Common.UI;
 
-/// <summary>
-///     Provides a <see cref="UIImage" /> that displays a tooltip on hover
-///     and contains hover transform effects.
-/// </summary>
 public class UIHoverTooltipImage : UIImage
 {
 	/// <summary>

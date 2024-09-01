@@ -32,7 +32,7 @@ public class UIBossFlagsListTab : UIElement
     ///     The display name of this tab.
     /// </summary>
     public readonly string Name;
-
+    
     public UIBossFlagsListTab(Asset<Texture2D> icon, string name) {
         Icon = icon;
         Name = name;
@@ -47,12 +47,17 @@ public class UIBossFlagsListTab : UIElement
         Append(BuildPanel());
         Append(BuildIcon());
         Append(BuildText());
+        Append(BuildSeparator());
     }
 
     private UIPanel BuildPanel() {
-        var panel = new UIPanel {
-            BackgroundColor = new Color(68, 97, 175) * 0.8f,
-            BorderColor = new Color(68, 97, 175) * 0.8f,
+        var panel = new UIPanel(
+            ModContent.Request<Texture2D>($"{nameof(Universium)}/Assets/Textures/UI/PanelBackground"),
+            ModContent.Request<Texture2D>($"{nameof(Universium)}/Assets/Textures/UI/PanelBorder"),
+            13
+        ) {
+            BackgroundColor = new Color(41, 66, 133) * 0.8f,
+            BorderColor = new Color(13, 13, 15),
             Width = { Pixels = ElementWidth },
             Height = { Pixels = ElementHeight },
             OverrideSamplerState = SamplerState.PointClamp
@@ -63,8 +68,11 @@ public class UIBossFlagsListTab : UIElement
 
     private UIImage BuildIcon() {
         var icon = new UIImage(Icon) {
+            Width = { Pixels = 32f },
+            Height = { Pixels = 32f },
             VAlign = 0.5f,
             Left = { Pixels = ElementPadding },
+            ScaleToFit = true,
             OverrideSamplerState = SamplerState.PointClamp
         };
 
@@ -78,5 +86,19 @@ public class UIBossFlagsListTab : UIElement
         };
 
         return text;
+    }
+    
+    private UIImage BuildSeparator() {
+        var separator = new UIImage(TextureAssets.MagicPixel) {
+            Color = Color.White * 0.8f,
+            Width = { Pixels = ElementWidth },
+            Height = { Pixels = 2f },
+            HAlign = 0.5f,
+            VAlign = 1f,
+            ScaleToFit = true,
+            OverrideSamplerState = SamplerState.PointClamp
+        };
+
+        return separator;
     }
 }

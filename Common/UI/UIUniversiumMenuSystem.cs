@@ -3,7 +3,7 @@ using Universium.Core.UI;
 namespace Universium.Common.UI;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class UIUniversiumMenuManager : ModSystem
+public sealed class UIUniversiumMenuSystem : ModSystem
 {
     public override void OnWorldLoad() {
         base.OnWorldLoad();
