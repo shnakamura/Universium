@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Universium.Common.Authentication;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerAntiCheatSystem : ModSystem
+public sealed class PlayerAntiCheat : ModSystem
 {
+    public static readonly string EnabledPath = Path.Combine(Main.SavePath, "Mods", "enabled.json");
+    
     public static readonly IReadOnlyList<string> Whitelist = [
         "RecipeBrowser",
         "Census",
@@ -18,34 +21,18 @@ public sealed class PlayerAntiCheatSystem : ModSystem
     public override void PostSetupContent() {
         base.PostSetupContent();
 
-        var path = Path.Combine(Main.SavePath, "Mods", "enabled.json");
-
-        if (!File.Exists(path)) {
-            throw new Exception("Could not find the file containing the list of enabled mods.");
-        }
-
-        var text = File.ReadAllText(path);
+        var text = File.ReadAllText(EnabledPath);
         var mods = JsonConvert.DeserializeObject<string[]?>(text);
 
         if (mods == null) {
-            throw new Exception("Could not retrieve the list of enabled mods.");
+            throw new Exception();
         }
 
-        for (int i = 0; i < mods.Length; i++) {
-            var whitelisted = false;
-            
-            for (int j = 0; j < Whitelist.Count; j++) {
-                if (mods[i] == Whitelist[j]) {
-                    whitelisted = true;
-                    break;
-                }
-            }
+        var blacklisted = mods.Any(mod => !Whitelist.Contains(mod));
 
-            if (whitelisted) {
-                continue;
-            }
-            
-            throw new Exception("A blacklisted mod was detected: " + mods[i]);
+        if (!blacklisted) {
+            return;
         }
+
     }
 }

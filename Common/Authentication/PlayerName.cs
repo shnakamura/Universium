@@ -4,26 +4,23 @@ using Terraria.ModLoader.IO;
 namespace Universium.Common.Authentication;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerNameChanges : ModPlayer
+public sealed class PlayerName : ModPlayer
 {
     private sealed class PlayerNameChangesSystemImpl : ModSystem
     {
-        private static Player Player => Main.CurrentPlayer;
-        
         public override void PreSaveAndQuit() {
             base.PreSaveAndQuit();
 
-            if (!Player.TryGetModPlayer(out PlayerNameChanges modPlayer)) {
-                throw new Exception("Could not retrieve the ModPlayer instance of PlayerNameChanges.");
+            var player = Main.CurrentPlayer;
+            
+            if (!player.TryGetModPlayer(out PlayerName modPlayer)) {
+                return;
             }
 
-            Player.name = modPlayer.OldName;
+            player.name = modPlayer.OldName;
         }
     }
-    
-    /// <summary>
-    ///     The original name of this player.
-    /// </summary>
+
     public string OldName { get; private set; }
     
     public override void Initialize() {
@@ -37,7 +34,7 @@ public sealed class PlayerNameChanges : ModPlayer
 
         Player.name = $"{SteamFriends.GetPersonaName()} | {OldName}";
     }
-
+    
     public override void SaveData(TagCompound tag) {
         base.SaveData(tag);
 
