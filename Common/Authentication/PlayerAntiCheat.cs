@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -6,16 +7,13 @@ namespace Universium.Common.Authentication;
 [Autoload(Side = ModSide.Client)]
 public sealed class PlayerAntiCheatSystem : ModSystem
 {
-    /// <summary>
-    ///     The list of names of whitelisted mods.
-    /// </summary>
-    public static readonly string[] Whitelist = {
+    public static readonly IReadOnlyList<string> Whitelist = [
         "RecipeBrowser",
         "Census",
         "HEROsMod",
         "BossCursor",
         "BossChecklist"
-    };
+    ];
     
     public override void PostSetupContent() {
         base.PostSetupContent();
@@ -34,16 +32,16 @@ public sealed class PlayerAntiCheatSystem : ModSystem
         }
 
         for (int i = 0; i < mods.Length; i++) {
-            var isWhitelisted = false;
+            var whitelisted = false;
             
-            for (int j = 0; j < Whitelist.Length; j++) {
+            for (int j = 0; j < Whitelist.Count; j++) {
                 if (mods[i] == Whitelist[j]) {
-                    isWhitelisted = true;
+                    whitelisted = true;
                     break;
                 }
             }
 
-            if (isWhitelisted) {
+            if (whitelisted) {
                 continue;
             }
             
