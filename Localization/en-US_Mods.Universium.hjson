@@ -1,1 +1,13 @@
 UI.Buttons.Flags: Flags
+
+Configs: {
+	ServerConfig: {
+		DisplayName: Server Configuration [i:237]
+		Headers.Settings: Settings
+
+		Banned: {
+			Label: Banned Items
+			Tooltip: The list of items banned by the server.
+		}
+	}
+}

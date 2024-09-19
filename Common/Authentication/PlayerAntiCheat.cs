@@ -28,7 +28,7 @@ public sealed class PlayerAntiCheat : ModSystem
             throw new Exception();
         }
 
-        var blacklisted = mods.Any(mod => !Whitelist.Contains(mod));
+        var blacklisted = mods.Any(static mod => !Whitelist.Contains(mod));
 
         if (!blacklisted) {
             return;
